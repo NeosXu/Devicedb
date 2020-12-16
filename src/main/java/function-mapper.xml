@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.DeviceM.mapper.FunctionMapper">
+    <select id="addDevice" resultType="map" useCache="false" statementType="CALLABLE">
+        select add_device(#{name}, #{type}, #{purchaseTime}, #{price}, #{producer}, #{warrantyUntil}, #{transactorId}, #{adminId});
+    </select>
+
+    <select id="resetAdmin" resultType="map" useCache="false" statementType="CALLABLE">
+        select assign_admin(#{deviceId}, #{adminId});
+    </select>
+
+    <select id="deleteDevice" resultType="map" useCache="false" statementType="CALLABLE">
+        select delete_device(#{deviceId});
+    </select>
+    
+    <select id="setDeviceDamaged" resultType="map" useCache="false" statementType="CALLABLE">
+        select set_device_damaged(#{deviceId});
+    </select>
+    
+    <select id="newIssue" resultType="map" useCache="false" statementType="CALLABLE">
+        select new_issue(#{deviceId}, #{time}, #{reason}, #{expectedDays});
+    </select>
+
+    <select id="evaluateIssue" resultType="map" useCache="false" statementType="CALLABLE">
+        select evaluate_issue(#{issueId}, #{days});
+    </select>
+
+    <select id="handleIssue" resultType="map" useCache="false" statementType="CALLABLE">
+        select handle_issue(#{issueId}, #{repaired});
+    </select>
+
+    <select id="deleteIssue" resultType="map" useCache="false" statementType="CALLABLE">
+        select delete_issue(#{issueId});
+    </select>
+
+    <select id="clearHandledIssue" resultType="map" useCache="false" statementType="CALLABLE">
+        select clear_handled_issue(#{time});
+    </select>
+
+    <select id="newRequest" resultType="map" useCache="false" statementType="CALLABLE">
+        select new_request(#{deviceId}, #{personId}, #{requestDate}, #{period}, #{reason});
+    </select>
+
+    <select id="rejectRequest" resultType="map" useCache="false" statementType="CALLABLE">
+        select reject_request(#{requestId});
+    </select>
+
+    <select id="approveRequest" resultType="map" useCache="false" statementType="CALLABLE">
+        select approve_request(#{requestId}, #{operatorId});
+    </select>
+    
+    <select id="returnDevice" resultType="map" useCache="false" statementType="CALLABLE">
+        select return_device(#{deviceId});
+    </select>
+
+    <select id="clearOutdatedRequests" resultType="map" useCache="false" statementType="CALLABLE">
+        select delete_requests(#{date});
+    </select>
+
+    <select id="createAccount" resultType="integer" useCache="false" statementType="CALLABLE">
+        select create_account(#{name}, #{password}, #{isTeacher});
+    </select>
+    
+    <select id="deleteAccount" resultType="map" useCache="false" statementType="CALLABLE">
+        select delete_account(#{id});
+    </select>
+    
+    <select id="changePassword" resultType="map" useCache="false" statementType="CALLABLE">
+        select change_password(#{id}, #{password});
+    </select>
+</mapper>
