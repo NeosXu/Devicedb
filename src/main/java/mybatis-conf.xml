@@ -3,19 +3,26 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="org.postgresql.Driver"/>
-                <property name="url" value="jdbc:postgresql://127.0.0.1:5432/devicedb"/>
-                <property name="username" value="postgres"/>
-                <property name="password" value="simon"/>
+                <property name="url" value="jdbc:postgresql://118.190.208.117:5432/device_management1"/>
+                <property name="username" value="xu"/>
+                <property name="password" value="JHXW$ebAaxeE"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
         <mapper resource="function-mapper.xml"/>
         <mapper resource="device-mapper.xml"></mapper>
+        <mapper resource="account-mapper.xml"></mapper>
+        <mapper resource="issue-mapper.xml"></mapper>
+        <mapper resource="lending-mapper.xml"></mapper>
+        <mapper resource="request-mapper.xml"></mapper>
     </mappers>
 </configuration>

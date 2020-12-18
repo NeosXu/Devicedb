@@ -1,6 +1,8 @@
 package org.DeviceM;
 
+import org.DeviceM.dao.Account;
 import org.DeviceM.mapper.FunctionMapper;
+import org.DeviceM.swing.frame.LoginFrame;
 import org.DeviceM.util.Transaction;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -19,6 +21,7 @@ public class App  {
     public static void main( String[] args ) throws IOException {
         connectDatabase();
         System.out.println("Database connected.");
+        LoginFrame loginFrame = new LoginFrame();
     }
 
     public static void connectDatabase() throws IOException {

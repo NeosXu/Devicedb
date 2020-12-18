@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.DeviceM.mapper.RequestMapper">
+    <select id="getAllRequest" resultType="org.DeviceM.dao.Request">
+        select * from Request;
+    </select>
+    <select id="getStudentAllRequestById" resultType="org.DeviceM.dao.Request">
+        select * from Request where person_id=#{id};
+    </select>
+    <select id="getTeacherAllRequestById" resultType="org.DeviceM.dao.Request">
+        (select * from Request where person_id=#{id})
+        UNION
+        (select * from Request where device_id in (
+        select id from Device where admin_id=#{id}
+        ));
+    </select>
+</mapper>

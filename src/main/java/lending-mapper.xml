@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.DeviceM.mapper.LendingMapper">
+    <select id="getAllLending" resultType="org.DeviceM.dao.Lending">
+        select * from Lending;
+    </select>
+    <select id="getStudentAllLendingById" resultType="org.DeviceM.dao.Lending">
+        select * from Lending where person_id=#{id};
+    </select>
+    <select id="getTeacherAllLendingById" resultType="org.DeviceM.dao.Lending">
+        (select * from Lending where person_id=#{id})
+        UNION
+        (select * from Lending where device_id in (
+        select id from Device where admin_id=#{id}
+        ));
+    </select>
+</mapper>

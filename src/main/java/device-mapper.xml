@@ -3,7 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.DeviceM.mapper.DeviceMapper">
-    <select id="getAllDevice" resultType="org.DeviceM.dao.Device">
+    <select id="getAllDevice" resultType="org.DeviceM.dao.Device" resultMap="deviceMapper">
         select * from Device;
     </select>
+    
+    <resultMap id="deviceMapper" type="org.DeviceM.dao.Device">
+        <result property="deviceStatus" column="status"></result>
+    </resultMap>
 </mapper>

@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 // map into functions stored in postgresql database
 public interface FunctionMapper {
     // 1
-    public void addDevice(Device device);
+    public Integer addDevice(Device device);
 
     // 2
     public void resetAdmin(@Param("deviceId") Integer deviceId, @Param("adminId") Integer adminId);
@@ -24,7 +24,7 @@ public interface FunctionMapper {
     public void setDeviceDamaged(Integer deviceId);
 
     // 5
-    public void newIssue(Issue issue);
+    public Integer newIssue(Issue issue);
 
     // 6
     public void evaluateIssue(@Param("issueId") Integer issueId, @Param("days") Integer days);
@@ -39,13 +39,13 @@ public interface FunctionMapper {
     public void clearHandledIssue(Timestamp time);
 
     // 11
-    public void newRequest(Request request);
+    public Integer newRequest(Request request);
 
     // 12
     public void rejectRequest(Integer requestId);
 
     // 13
-    public void approveRequest(@Param("requestId") Integer requestId, @Param("operatorId") Integer operatorId);
+    public boolean approveRequest(@Param("requestId") Integer requestId, @Param("operatorId") Integer operatorId);
 
     // 14
     public void returnDevice(Integer deviceId);

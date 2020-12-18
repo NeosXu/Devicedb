@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.DeviceM.mapper.FunctionMapper">
-    <select id="addDevice" resultType="map" useCache="false" statementType="CALLABLE">
+    <select id="addDevice" resultType="integer" useCache="false" statementType="CALLABLE">
         select add_device(#{name}, #{type}, #{purchaseTime}, #{price}, #{producer}, #{warrantyUntil}, #{transactorId}, #{adminId});
     </select>
 
@@ -19,7 +19,7 @@
         select set_device_damaged(#{deviceId});
     </select>
     
-    <select id="newIssue" resultType="map" useCache="false" statementType="CALLABLE">
+    <select id="newIssue" resultType="integer" useCache="false" statementType="CALLABLE">
         select new_issue(#{deviceId}, #{time}, #{reason}, #{expectedDays});
     </select>
 
@@ -39,7 +39,7 @@
         select clear_handled_issue(#{time});
     </select>
 
-    <select id="newRequest" resultType="map" useCache="false" statementType="CALLABLE">
+    <select id="newRequest" resultType="integer" useCache="false" statementType="CALLABLE">
         select new_request(#{deviceId}, #{personId}, #{requestDate}, #{period}, #{reason});
     </select>
 
@@ -47,7 +47,7 @@
         select reject_request(#{requestId});
     </select>
 
-    <select id="approveRequest" resultType="map" useCache="false" statementType="CALLABLE">
+    <select id="approveRequest" resultType="boolean" useCache="false" statementType="CALLABLE">
         select approve_request(#{requestId}, #{operatorId});
     </select>
     

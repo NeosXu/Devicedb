@@ -2,12 +2,8 @@ package org.DeviceM;
 
 import static org.junit.Assert.assertTrue;
 
-import org.DeviceM.dao.Account;
-import org.DeviceM.dao.Device;
-import org.DeviceM.dao.Issue;
-import org.DeviceM.dao.Request;
-import org.DeviceM.mapper.DeviceMapper;
-import org.DeviceM.mapper.FunctionMapper;
+import org.DeviceM.dao.*;
+import org.DeviceM.mapper.*;
 import org.DeviceM.util.Transaction;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
@@ -15,13 +11,10 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Function;
 
 /**
  * Unit test for simple App.
@@ -84,12 +77,13 @@ public class AppTest {
         device.producer = "Star Company";
         Transaction.start((SqlSession session) -> {
             FunctionMapper mapper = session.getMapper(FunctionMapper.class);
-            mapper.addDevice(device);
+            Integer id = mapper.addDevice(device);
 //            // 加了两部设备
 //            device.adminId = 2;
 //            device.transactorId = 1;
 //            mapper.addDevice(device);
-            return null;
+            System.out.println(id);
+            return id;
         });
     }
 
@@ -129,8 +123,9 @@ public class AppTest {
 
         Transaction.start((SqlSession session) -> {
             FunctionMapper mapper = session.getMapper(FunctionMapper.class);
-            mapper.newIssue(issue);
-            return null;
+            Integer id = mapper.newIssue(issue);
+            System.out.println(id);
+            return id;
         });
     }
 
@@ -230,6 +225,66 @@ public class AppTest {
             DeviceMapper mapper = session.getMapper(DeviceMapper.class);
             List<Device> list = mapper.getAllDevice();
             System.out.println(list);
+            return null;
+        });
+    }
+
+    @Test
+    public void testGetAllAccount() {
+        Transaction.start((SqlSession session) -> {
+            AccountMapper mapper = session.getMapper(AccountMapper.class);
+            List<Account> list = mapper.getAllAccount();
+            System.out.println(list);
+            return null;
+        });
+    }
+
+    @Test
+    public void testGetPassWordById() {
+        Transaction.start((SqlSession session) -> {
+            AccountMapper mapper = session.getMapper(AccountMapper.class);
+            String passWord = mapper.getPassWordById(1);
+            System.out.println(passWord);
+            return null;
+        });
+    }
+
+    @Test
+    public void testGetAllIssue() {
+        Transaction.start((SqlSession session) -> {
+            IssueMapper mapper = session.getMapper(IssueMapper.class);
+            List<Issue> list = mapper.getAllIssue();
+            System.out.println(list);
+            return null;
+        });
+    }
+
+    @Test
+    public void testGetAllLending() {
+        Transaction.start((SqlSession session) -> {
+            LendingMapper mapper = session.getMapper(LendingMapper.class);
+            List<Lending> list = mapper.getAllLending();
+            System.out.println(list);
+            return null;
+        });
+    }
+
+    @Test
+    public void testGetAllRequest() {
+        Transaction.start((SqlSession session) -> {
+            RequestMapper mapper = session.getMapper(RequestMapper.class);
+            List<Request> list = mapper.getAllRequest();
+            System.out.println(list);
+            return null;
+        });
+    }
+
+    @Test
+    public void testGetAccountById() {
+        Transaction.start((SqlSession session) -> {
+            AccountMapper mapper = session.getMapper(AccountMapper.class);
+            Account account = mapper.getAccountById(1);
+            System.out.println(account);
             return null;
         });
     }
