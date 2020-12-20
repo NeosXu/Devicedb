@@ -9,6 +9,7 @@ import org.DeviceM.swing.table.AdminTable;
 import org.DeviceM.swing.tableModel.IssueTableModel;
 import org.DeviceM.util.Transaction;
 import org.apache.ibatis.session.SqlSession;
+import org.jdesktop.swingx.JXDatePicker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class IssuePanel extends JPanel {
     Account currentAccount;
@@ -83,15 +85,15 @@ public class IssuePanel extends JPanel {
                 deviceIdPanel.add(deviceIdTextField);
 
                 JPanel timePanel = new JPanel();
-                JLabel timeLabel = new JLabel("时间");
-                JTextField timeTextField = new JTextField();
-                timeTextField.setMaximumSize(new Dimension(200, 30));
-                timeTextField.setPreferredSize(new Dimension(200, 30));
+                JLabel timeLabel = new JLabel("报修日期");
+                JXDatePicker timeDatePicker = new JXDatePicker(new Date());
+                timeDatePicker.setMaximumSize(new Dimension(200, 30));
+                timeDatePicker.setPreferredSize(new Dimension(200, 30));
                 timePanel.add(timeLabel);
-                timePanel.add(timeTextField);
+                timePanel.add(timeDatePicker);
 
                 JPanel expectedDayPanel = new JPanel();
-                JLabel expectedDayLabel = new JLabel("预计维修时间");
+                JLabel expectedDayLabel = new JLabel("预计维修天数");
                 JTextField expectedDayTextField = new JTextField();
                 expectedDayTextField.setMaximumSize(new Dimension(200, 30));
                 expectedDayTextField.setPreferredSize(new Dimension(200, 30));
@@ -99,7 +101,7 @@ public class IssuePanel extends JPanel {
                 expectedDayPanel.add(expectedDayTextField);
 
                 JPanel reasonPanel = new JPanel();
-                JLabel reasonLabel = new JLabel("原因");
+                JLabel reasonLabel = new JLabel("损坏原因");
                 JTextArea reasonTextField = new JTextArea();
                 reasonTextField.setLineWrap(true);
                 reasonTextField.setMaximumSize(new Dimension(200, 100));
@@ -138,7 +140,7 @@ public class IssuePanel extends JPanel {
                         Issue issue = new Issue();
                         try {
                             issue.deviceId = Integer.valueOf(deviceIdTextField.getText());
-                            issue.time = Timestamp.valueOf(timeTextField.getText());
+                            issue.time = new Timestamp(timeDatePicker.getDate().getTime());
                             if (!"".equals(expectedDayTextField.getText())) {
                                 issue.expectedDays = Integer.valueOf(expectedDayTextField.getText());
                             }
@@ -176,11 +178,13 @@ public class IssuePanel extends JPanel {
                 int index = updateComboBox.getSelectedIndex();
                 if (index == 0) {
                     String expected = JOptionPane.showInputDialog(box, "预计修复完成的天数");
-                    try {
-                        int expectedDay = Integer.parseInt(expected);
-                        doEvaluateIssue(expectedDay);
-                    } catch (Exception e1) {
-                        JOptionPane.showMessageDialog(box,"请输入正确的日期！");
+                    if (expected != null) {
+                        try {
+                            int expectedDay = Integer.parseInt(expected);
+                            doEvaluateIssue(expectedDay);
+                        } catch (Exception e1) {
+                            JOptionPane.showMessageDialog(box, "请输入正确的日期！");
+                        }
                     }
                 }
                 else if (index == 1 || index == 2) {
@@ -214,7 +218,10 @@ public class IssuePanel extends JPanel {
                     }
                 }
                 else if (index == 1) {
-                    String days = JOptionPane.showInputDialog("删除此天以前的记录");
+                    JXDatePicker datePicker = new JXDatePicker(new Date());
+                    String message = "请输入日期";
+                    Object[] params = {message, datePicker};
+                    String days = JOptionPane.showInputDialog(params);
                     if (days != null) {
                         try {
                             Timestamp d = Timestamp.valueOf(days);

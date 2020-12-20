@@ -9,6 +9,7 @@ import org.DeviceM.swing.table.AdminTable;
 import org.DeviceM.swing.tableModel.DeviceTableModel;
 import org.DeviceM.util.Transaction;
 import org.apache.ibatis.session.SqlSession;
+import org.jdesktop.swingx.JXDatePicker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class DevicePanel extends JPanel {
 
@@ -76,7 +78,7 @@ public class DevicePanel extends JPanel {
                 jDialog.setBounds(200, 200, 600, 400);
 
                 JPanel namePanel = new JPanel();
-                JLabel nameLabel = new JLabel("名称");
+                JLabel nameLabel = new JLabel("设备名称");
                 JTextField nameTextField = new JTextField();
                 nameTextField.setMaximumSize(new Dimension(200, 30));
                 nameTextField.setPreferredSize(new Dimension(200, 30));
@@ -84,7 +86,7 @@ public class DevicePanel extends JPanel {
                 namePanel.add(nameTextField);
 
                 JPanel typePanel = new JPanel();
-                JLabel typeLabel = new JLabel("类型");
+                JLabel typeLabel = new JLabel("设备类型");
                 JTextField typeTextField = new JTextField();
                 typeTextField.setMaximumSize(new Dimension(200, 30));
                 typeTextField.setPreferredSize(new Dimension(200, 30));
@@ -93,14 +95,15 @@ public class DevicePanel extends JPanel {
 
                 JPanel purchaseTimePanel = new JPanel();
                 JLabel purchaseTimeLabel = new JLabel("购买时间");
-                JTextField purchaseTimeTextField = new JTextField();
-                purchaseTimeTextField.setMaximumSize(new Dimension(200, 30));
-                purchaseTimeTextField.setPreferredSize(new Dimension(200, 30));
+                JXDatePicker purchaseTimeDatePicker = new JXDatePicker();
+                purchaseTimeDatePicker.setDate(new Date());
+                purchaseTimeDatePicker.setMaximumSize(new Dimension(200, 30));
+                purchaseTimeDatePicker.setPreferredSize(new Dimension(200, 30));
                 purchaseTimePanel.add(purchaseTimeLabel);
-                purchaseTimePanel.add(purchaseTimeTextField);
+                purchaseTimePanel.add(purchaseTimeDatePicker);
 
                 JPanel pricePanel = new JPanel();
-                JLabel priceLabel = new JLabel("价格");
+                JLabel priceLabel = new JLabel("设备价格");
                 JTextField priceTextField = new JTextField();
                 priceTextField.setMaximumSize(new Dimension(200, 30));
                 priceTextField.setPreferredSize(new Dimension(200, 30));
@@ -116,15 +119,16 @@ public class DevicePanel extends JPanel {
                 producerPanel.add(producerTextField);
 
                 JPanel warrantyUntilPanel = new JPanel();
-                JLabel warrantyUntilLabel = new JLabel("保修截至日期");
-                JTextField warrantyUntilTextField = new JTextField();
-                warrantyUntilTextField.setMaximumSize(new Dimension(200, 30));
-                warrantyUntilTextField.setPreferredSize(new Dimension(200, 30));
+                JLabel warrantyUntilLabel = new JLabel("保修日期");
+                JXDatePicker warrantyUntilDatePicker = new JXDatePicker();
+                warrantyUntilDatePicker.setDate(new Date());
+                warrantyUntilDatePicker.setMaximumSize(new Dimension(200, 30));
+                warrantyUntilDatePicker.setPreferredSize(new Dimension(200, 30));
                 warrantyUntilPanel.add(warrantyUntilLabel);
-                warrantyUntilPanel.add(warrantyUntilTextField);
+                warrantyUntilPanel.add(warrantyUntilDatePicker);
 
                 JPanel transactorIdPanel = new JPanel();
-                JLabel transactorIdLabel = new JLabel("经购人");
+                JLabel transactorIdLabel = new JLabel("经办人ID");
                 JTextField transactorIdTextField = new JTextField();
                 transactorIdTextField.setMaximumSize(new Dimension(200, 30));
                 transactorIdTextField.setPreferredSize(new Dimension(200, 30));
@@ -132,7 +136,7 @@ public class DevicePanel extends JPanel {
                 transactorIdPanel.add(transactorIdTextField);
 
                 JPanel adminIdPanel = new JPanel();
-                JLabel adminIdLabel = new JLabel("管理者");
+                JLabel adminIdLabel = new JLabel("管理者ID");
                 JTextField adminIdTextField = new JTextField();
                 adminIdTextField.setMaximumSize(new Dimension(200, 30));
                 adminIdTextField.setPreferredSize(new Dimension(200, 30));
@@ -179,10 +183,10 @@ public class DevicePanel extends JPanel {
                         try {
                             device.name = nameTextField.getText();
                             device.type = typeTextField.getText();
-                            device.purchaseTime = Timestamp.valueOf(purchaseTimeTextField.getText());
+                            device.purchaseTime = new Timestamp(purchaseTimeDatePicker.getDate().getTime());
                             device.price = Double.valueOf(priceTextField.getText());
                             device.producer = producerTextField.getText();
-                            device.warrantyUntil = Timestamp.valueOf(warrantyUntilTextField.getText());
+                            device.warrantyUntil = new Timestamp(warrantyUntilDatePicker.getDate().getTime());
                             device.transactorId = Integer.valueOf(transactorIdTextField.getText());
                             device.adminId = Integer.valueOf(adminIdTextField.getText());
                             doWarehousing(device);

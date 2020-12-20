@@ -84,7 +84,7 @@ public class RequestPanel extends JPanel {
                 deviceIdPanel.add(deviceIdTextField);
 
                 JPanel personIdPanel = new JPanel();
-                JLabel personIdLabel = new JLabel("账户");
+                JLabel personIdLabel = new JLabel("账户ID");
                 JTextField personIdTextField = new JTextField();
                 personIdTextField.setMaximumSize(new Dimension(200, 30));
                 personIdTextField.setPreferredSize(new Dimension(200, 30));
@@ -92,7 +92,7 @@ public class RequestPanel extends JPanel {
                 personIdPanel.add(personIdTextField);
 
                 JPanel datePanel = new JPanel();
-                JLabel dateLabel = new JLabel("日期");
+                JLabel dateLabel = new JLabel("开始日期");
                 JTextField dateTextField = new JTextField();
                 dateTextField.setMaximumSize(new Dimension(200, 30));
                 dateTextField.setPreferredSize(new Dimension(200, 30));
