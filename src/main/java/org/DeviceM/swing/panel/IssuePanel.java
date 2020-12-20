@@ -5,6 +5,7 @@ import org.DeviceM.dao.Account;
 import org.DeviceM.dao.Issue;
 import org.DeviceM.mapper.AccountMapper;
 import org.DeviceM.mapper.FunctionMapper;
+import org.DeviceM.swing.dialog.DatePickerDialog;
 import org.DeviceM.swing.table.AdminTable;
 import org.DeviceM.swing.tableModel.IssueTableModel;
 import org.DeviceM.util.Transaction;
@@ -76,63 +77,83 @@ public class IssuePanel extends JPanel {
                 jDialog.setTitle("新报修设备");
                 jDialog.setBounds(200, 200, 600, 400);
 
-                JPanel deviceIdPanel = new JPanel();
                 JLabel deviceIdLabel = new JLabel("设备ID");
                 JTextField deviceIdTextField = new JTextField();
                 deviceIdTextField.setMaximumSize(new Dimension(200, 30));
                 deviceIdTextField.setPreferredSize(new Dimension(200, 30));
-                deviceIdPanel.add(deviceIdLabel);
-                deviceIdPanel.add(deviceIdTextField);
 
-                JPanel timePanel = new JPanel();
                 JLabel timeLabel = new JLabel("报修日期");
                 JXDatePicker timeDatePicker = new JXDatePicker(new Date());
                 timeDatePicker.setMaximumSize(new Dimension(200, 30));
                 timeDatePicker.setPreferredSize(new Dimension(200, 30));
-                timePanel.add(timeLabel);
-                timePanel.add(timeDatePicker);
 
-                JPanel expectedDayPanel = new JPanel();
                 JLabel expectedDayLabel = new JLabel("预计维修天数");
                 JTextField expectedDayTextField = new JTextField();
                 expectedDayTextField.setMaximumSize(new Dimension(200, 30));
                 expectedDayTextField.setPreferredSize(new Dimension(200, 30));
-                expectedDayPanel.add(expectedDayLabel);
-                expectedDayPanel.add(expectedDayTextField);
 
-                JPanel reasonPanel = new JPanel();
                 JLabel reasonLabel = new JLabel("损坏原因");
                 JTextArea reasonTextField = new JTextArea();
                 reasonTextField.setLineWrap(true);
                 reasonTextField.setMaximumSize(new Dimension(200, 100));
                 reasonTextField.setPreferredSize(new Dimension(200, 100));
-                reasonPanel.add(reasonLabel);
-                reasonPanel.add(reasonTextField);
 
                 JButton confirmButton = new JButton("确认");
                 JButton cancelButton = new JButton("取消");
 
-                Box jDialogBox = Box.createVerticalBox();
-                jDialogBox.add(Box.createVerticalStrut(10));
-                jDialogBox.add(deviceIdPanel);
-                jDialogBox.add(Box.createVerticalGlue());
-                jDialogBox.add(timePanel);
-                jDialogBox.add(Box.createVerticalGlue());
-                jDialogBox.add(expectedDayPanel);
-                jDialogBox.add(Box.createVerticalGlue());
-                jDialogBox.add(reasonPanel);
-                jDialogBox.add(Box.createVerticalGlue());
-
                 Box buttonBox = Box.createHorizontalBox();
-                jDialogBox.add(buttonBox);
-                buttonBox.add(Box.createHorizontalStrut(50));
+                buttonBox.add(Box.createHorizontalStrut(120));
                 buttonBox.add(confirmButton);
                 buttonBox.add(Box.createHorizontalGlue());
                 buttonBox.add(cancelButton);
-                buttonBox.add(Box.createHorizontalStrut(50));
-                jDialogBox.add(Box.createVerticalStrut(10));
+                buttonBox.add(Box.createHorizontalStrut(120));
 
-                jDialog.add(jDialogBox);
+                // 创建组件布局
+                Box contentBox = Box.createVerticalBox();
+
+                // 上方输入区域
+                JPanel contentPanel = new JPanel();
+                GroupLayout layout = new GroupLayout(contentPanel);
+                contentPanel.setLayout(layout);
+                // 横向布局
+                GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+                hGroup.addGap(5);
+                hGroup.addGroup(layout.createParallelGroup()
+                        .addComponent(deviceIdLabel)
+                        .addComponent(timeLabel)
+                        .addComponent(expectedDayLabel)
+                        .addComponent(reasonLabel));
+                hGroup.addGap(5);
+                hGroup.addGroup(layout.createParallelGroup()
+                        .addComponent(deviceIdTextField)
+                        .addComponent(timeDatePicker)
+                        .addComponent(expectedDayTextField)
+                        .addComponent(reasonTextField));
+                hGroup.addGap(5);
+                layout.setHorizontalGroup(hGroup);
+
+                // 纵向布局
+                GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+                vGroup.addGap(10);
+                vGroup.addGroup(layout.createParallelGroup()
+                        .addComponent(deviceIdLabel).addComponent(deviceIdTextField));
+                vGroup.addGap(10);
+                vGroup.addGroup(layout.createParallelGroup()
+                        .addComponent(timeLabel).addComponent(timeDatePicker));
+                vGroup.addGap(10);
+                vGroup.addGroup(layout.createParallelGroup()
+                        .addComponent(expectedDayLabel).addComponent(expectedDayTextField));
+                vGroup.addGap(10);
+                vGroup.addGroup(layout.createParallelGroup()
+                        .addComponent(reasonLabel).addComponent(reasonTextField));
+                vGroup.addGap(10);
+                layout.setVerticalGroup(vGroup);
+
+                // 填装content Box
+                contentBox.add(Box.createVerticalStrut(20));
+                contentBox.add(contentPanel);
+                contentBox.add(buttonBox);
+                jDialog.add(contentBox);
 
                 confirmButton.addActionListener(new ActionListener() {
                     @Override
@@ -218,17 +239,13 @@ public class IssuePanel extends JPanel {
                     }
                 }
                 else if (index == 1) {
-                    JXDatePicker datePicker = new JXDatePicker(new Date());
-                    String message = "请输入日期";
-                    Object[] params = {message, datePicker};
-                    String days = JOptionPane.showInputDialog(params);
-                    if (days != null) {
-                        try {
-                            Timestamp d = Timestamp.valueOf(days);
-                            doClearIssue(d);
-                        } catch (Exception e1) {
-                            JOptionPane.showMessageDialog(box, "请输入正确的日期！");
+                    try {
+                        Timestamp days = DatePickerDialog.showDatePickerDialog("删除选择的日期以前的记录");
+                        if (days != null) {
+                            doClearIssue(days);
                         }
+                    } catch (Exception e1) {
+                            JOptionPane.showMessageDialog(box, "请选择正确的日期！");
                     }
                 }
                 else {

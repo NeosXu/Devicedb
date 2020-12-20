@@ -2,6 +2,7 @@ package org.DeviceM.swing.panel;
 
 import org.DeviceM.dao.Account;
 import org.DeviceM.mapper.FunctionMapper;
+import org.DeviceM.swing.frame.ManagementFrame;
 import org.DeviceM.swing.tableModel.AccountTableModel;
 import org.DeviceM.util.Transaction;
 import org.apache.ibatis.session.SqlSession;
@@ -17,8 +18,8 @@ public class AdminAccountPanel extends AccountPanel {
     private JTable table;
     private JPanel p;
 
-    public AdminAccountPanel(Account account) {
-        super(account);
+    public AdminAccountPanel(Account account, ManagementFrame managementFrame) {
+        super(account, managementFrame);
         accountTableModel = new AccountTableModel();
         table = new JTable(accountTableModel);
         JScrollPane sp = new JScrollPane(table);
@@ -27,6 +28,7 @@ public class AdminAccountPanel extends AccountPanel {
         JButton registerButton = new JButton("注册");
         JButton deleteButton = new JButton("删除");
         JButton changePassWordButton = new JButton("更改密码");
+        JButton logoutButton = makeLogoutButton();
         p = new JPanel();
 
         Box bp = Box.createHorizontalBox();
@@ -37,6 +39,8 @@ public class AdminAccountPanel extends AccountPanel {
         bp.add(deleteButton);
         bp.add(Box.createHorizontalStrut(50));
         bp.add(changePassWordButton);
+        bp.add(Box.createHorizontalGlue());
+        bp.add(logoutButton);
         bp.add(Box.createHorizontalStrut(50));
 
         Box b = Box.createVerticalBox();

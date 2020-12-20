@@ -1,6 +1,7 @@
 package org.DeviceM.swing.panel;
 
 import org.DeviceM.dao.Account;
+import org.DeviceM.swing.frame.ManagementFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class StudentAccountPanel extends AccountPanel {
 
-    public StudentAccountPanel(Account account) {
-        super(account);
+    public StudentAccountPanel(Account account, ManagementFrame managementFrame) {
+        super(account, managementFrame);
         makeStudentPanel();
     }
 
@@ -18,6 +19,7 @@ public class StudentAccountPanel extends AccountPanel {
         JLabel accountLabel = new JLabel(String.format("账号：%d", currentAccount.id));
         JLabel nameLabel = new JLabel(String.format("姓名：%s", currentAccount.name));
         JButton changePassWordButton = new JButton("更改密码");
+        JButton logoutButton = makeLogoutButton();
 
         Box b = Box.createVerticalBox();
         add(b);
@@ -28,6 +30,8 @@ public class StudentAccountPanel extends AccountPanel {
         b.add(Box.createVerticalStrut(100));
         b.add(changePassWordButton);
         b.add(Box.createVerticalStrut(50));
+        b.add(logoutButton);
+        b.add(Box.createVerticalStrut(100));
 
         changePassWordButton.addActionListener(new ActionListener() {
             @Override

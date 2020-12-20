@@ -5,10 +5,12 @@ import org.DeviceM.dao.Account;
 import org.DeviceM.dao.Request;
 import org.DeviceM.mapper.AccountMapper;
 import org.DeviceM.mapper.FunctionMapper;
+import org.DeviceM.swing.dialog.DatePickerDialog;
 import org.DeviceM.swing.table.AdminTable;
 import org.DeviceM.swing.tableModel.RequestTableModel;
 import org.DeviceM.util.Transaction;
 import org.apache.ibatis.session.SqlSession;
+import org.jdesktop.swingx.JXDatePicker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class RequestPanel extends JPanel {
 
@@ -93,11 +96,11 @@ public class RequestPanel extends JPanel {
 
                 JPanel datePanel = new JPanel();
                 JLabel dateLabel = new JLabel("开始日期");
-                JTextField dateTextField = new JTextField();
-                dateTextField.setMaximumSize(new Dimension(200, 30));
-                dateTextField.setPreferredSize(new Dimension(200, 30));
+                JXDatePicker datePicker = new JXDatePicker(new java.util.Date());
+                datePicker.setMaximumSize(new Dimension(200, 30));
+                datePicker.setPreferredSize(new Dimension(200, 30));
                 datePanel.add(dateLabel);
-                datePanel.add(dateTextField);
+                datePanel.add(datePicker);
 
                 JPanel periodPanel = new JPanel();
                 JLabel periodLabel = new JLabel("借用时间");
@@ -122,8 +125,12 @@ public class RequestPanel extends JPanel {
                 jDialogBox.add(Box.createVerticalStrut(10));
                 jDialogBox.add(deviceIdPanel);
                 jDialogBox.add(Box.createVerticalGlue());
-                jDialogBox.add(personIdPanel);
-                jDialogBox.add(Box.createVerticalGlue());
+
+                if (isAdmin()) {
+                    jDialogBox.add(personIdPanel);
+                    jDialogBox.add(Box.createVerticalGlue());
+                }
+
                 jDialogBox.add(datePanel);
                 jDialogBox.add(Box.createVerticalGlue());
                 jDialogBox.add(periodPanel);
@@ -148,8 +155,15 @@ public class RequestPanel extends JPanel {
                         Request request = new Request();
                         try {
                             request.deviceId = Integer.valueOf(deviceIdTextField.getText());
-                            request.personId = Integer.valueOf(personIdTextField.getText());
-                            request.requestDate = Date.valueOf(dateTextField.getText());
+
+                            if (isAdmin()) {
+                                request.personId = Integer.valueOf(personIdTextField.getText());
+                            }
+                            else {
+                                request.personId = currentAccount.id;
+                            }
+
+                            request.requestDate = new Timestamp(datePicker.getDate().getTime());
                             request.period = Integer.valueOf(periodTextField.getText());
                             request.reason = reasonTextArea.getText();
                             doCreateRequest(request);
@@ -214,14 +228,14 @@ public class RequestPanel extends JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String days = JOptionPane.showInputDialog("删除此天以前的记录");
-                if (days != null) {
-                    try {
-                        Date date = Date.valueOf(days);
+                try {
+                    Timestamp days = DatePickerDialog.showDatePickerDialog("删除选择的日期以前的记录");
+                    if (days != null) {
+                        Date date = Date.valueOf(String.valueOf(days).split(" ")[0]);
                         doClearRequest(date);
-                    } catch (Exception e1) {
-                        JOptionPane.showMessageDialog(box, "请输入正确的日期！");
                     }
+                } catch (Exception e1) {
+                        JOptionPane.showMessageDialog(box, "请输入正确的日期！");
                 }
             }
         });

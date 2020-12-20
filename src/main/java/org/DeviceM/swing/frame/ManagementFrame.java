@@ -26,10 +26,10 @@ public class ManagementFrame extends JFrame {
         super();
         this.currentAccount = account;
         if (isAdmin()) {
-            this.accountPanel = new AdminAccountPanel(currentAccount);
+            this.accountPanel = new AdminAccountPanel(currentAccount, this);
         }
         else {
-            this.accountPanel = new StudentAccountPanel(currentAccount);
+            this.accountPanel = new StudentAccountPanel(currentAccount, this);
         }
         this.devicePanel = new DevicePanel(currentAccount);
         this.issuePanel = new IssuePanel(currentAccount);
@@ -37,6 +37,7 @@ public class ManagementFrame extends JFrame {
         this.requestPanel = new RequestPanel(currentAccount);
 
         makeFrame();
+        this.setResizable(false);
     }
 
     private void makeFrame() {

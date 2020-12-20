@@ -1,6 +1,7 @@
 package org.DeviceM.swing.panel;
 
 import org.DeviceM.dao.Account;
+import org.DeviceM.swing.frame.ManagementFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class TeacherAccountPanel extends AccountPanel {
 
-    public TeacherAccountPanel(Account account) {
-        super(account);
+    public TeacherAccountPanel(Account account, ManagementFrame managementFrame) {
+        super(account, managementFrame);
     }
 
     private void makeTeacherPanel() {
