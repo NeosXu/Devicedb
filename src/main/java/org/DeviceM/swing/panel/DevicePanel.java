@@ -395,6 +395,7 @@ public class DevicePanel extends JPanel {
 
     public void updateTable() {
         this.table.updateUI();
+        this.updateUI();
     }
 
 }

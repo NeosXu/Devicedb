@@ -89,6 +89,7 @@ public class LendingPanel extends JPanel {
 
     public void updateTable() {
         this.table.updateUI();
+        this.updateUI();
     }
 
 }

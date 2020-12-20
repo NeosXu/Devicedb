@@ -70,11 +70,11 @@ public class ManagementFrame extends JFrame {
                                 break;
                             case 1:
                                 AdminTable.updateDeviceList();
-                                devicePanel.updateUI();
+                                devicePanel.updateTable();
                                 break;
                             case 2:
                                 AdminTable.updateIssueList();
-                                issuePanel.updateUI();
+                                issuePanel.updateTable();
                                 break;
                             case 3:
                                 if (isAdmin()) {
@@ -86,7 +86,7 @@ public class ManagementFrame extends JFrame {
                                 else {
                                     AdminTable.updateStudentLendingList(currentAccount.id);
                                 }
-                                lendingPanel.updateUI();
+                                lendingPanel.updateTable();
                                 break;
                             case 4:
                                 if (isAdmin()) {
@@ -98,7 +98,7 @@ public class ManagementFrame extends JFrame {
                                 else {
                                     AdminTable.updateStudentRequestList(currentAccount.id);
                                 }
-                                requestPanel.updateUI();
+                                requestPanel.updateTable();
                                 break;
                             default: break;
                         }

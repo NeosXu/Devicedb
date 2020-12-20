@@ -170,7 +170,7 @@ public class AppTest {
         Request request = new Request();
         request.deviceId = 2;
         request.period = 30;
-        request.personId = 2;
+        request.personId = 1;
         request.reason = "想要白嫖";
         request.requestDate = Date.valueOf(LocalDate.now());
 
@@ -186,7 +186,7 @@ public class AppTest {
     public void rejectRequest() {
         Transaction.start((SqlSession session) -> {
             FunctionMapper mapper = session.getMapper(FunctionMapper.class);
-            mapper.rejectRequest(2);
+            mapper.rejectRequest(1);
             return null;
         });
     }

@@ -11,9 +11,6 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="org.postgresql.Driver"/>
-                <property name="url" value="jdbc:postgresql://118.190.208.117:5432/device_management1"/>
-                <property name="username" value="xu"/>
-                <property name="password" value="JHXW$ebAaxeE"/>
             </dataSource>
         </environment>
     </environments>

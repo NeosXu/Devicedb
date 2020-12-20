@@ -212,6 +212,9 @@ IF operator_id = 0 or (operator_id, 'inStock') IN
 THEN 
 BEGIN
   UPDATE Request SET status = 'accepted' WHERE request_id = app_id;
+  update Device set status='onLoan' where id=(
+    select device_id from Request where request_id=app_id
+  );
   INSERT INTO Lending(device_id, person_id, request_id)
     (SELECT device_id, person_id, request_id FROM Request WHERE request_id = app_id);
   return true;

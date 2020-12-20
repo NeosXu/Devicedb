@@ -206,7 +206,11 @@ public class IssuePanel extends JPanel {
                 if (index == 0) {
                     int option = JOptionPane.showConfirmDialog(box, "确认删除？");
                     if (JOptionPane.OK_OPTION == option) {
-                        doDeleteDevice();
+                        try {
+                            doDeleteDevice();
+                        } catch (Exception e1) {
+                            JOptionPane.showMessageDialog(box, "请选择正确的设备！");
+                        }
                     }
                 }
                 else if (index == 1) {
@@ -316,10 +320,10 @@ public class IssuePanel extends JPanel {
                 Transaction.start((SqlSession session) -> {
                     FunctionMapper mapper = session.getMapper(FunctionMapper.class);
                     mapper.clearHandledIssue(day);
-                    AdminTable.updateIssueList();
-                    table.updateUI();
                     return null;
                 });
+                AdminTable.updateIssueList();
+                table.updateUI();
                 return null;
             }
         };
@@ -336,6 +340,7 @@ public class IssuePanel extends JPanel {
 
     public void updateTable() {
         this.table.updateUI();
+        this.updateUI();
     }
 
 }

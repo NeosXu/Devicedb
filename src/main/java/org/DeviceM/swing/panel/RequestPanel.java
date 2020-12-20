@@ -294,18 +294,18 @@ public class RequestPanel extends JPanel {
                 Transaction.start((SqlSession session) -> {
                     FunctionMapper mapper = session.getMapper(FunctionMapper.class);
                     mapper.clearOutdatedRequests(date);
-                    if (isAdmin()) {
-                        AdminTable.updateRequestList();
-                    }
-                    else if (isTeacher()) {
-                        AdminTable.updateTeacherRequestList(currentAccount.id);
-                    }
-                    else {
-                        AdminTable.updateStudentRequestList(currentAccount.id);
-                    }
-                    table.updateUI();
                     return null;
                 });
+                if (isAdmin()) {
+                    AdminTable.updateRequestList();
+                }
+                else if (isTeacher()) {
+                    AdminTable.updateTeacherRequestList(currentAccount.id);
+                }
+                else {
+                    AdminTable.updateStudentRequestList(currentAccount.id);
+                }
+                table.updateUI();
                 return null;
             }
         };
@@ -322,6 +322,7 @@ public class RequestPanel extends JPanel {
 
     public void updateTable() {
         this.table.updateUI();
+        this.updateUI();
     }
 
 //    public static void main(String[] args) throws IOException {
